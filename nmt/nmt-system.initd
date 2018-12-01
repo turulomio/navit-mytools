@@ -1,0 +1,18 @@
+#!/sbin/openrc-run
+
+depend() {
+	after net
+	after logger
+}
+
+start() {
+	ebegin "Starting nmt-system"
+	start-stop-daemon --start --make-pidfile --pidfile /run/nmt-system.pid --background --exec /usr/bin/nmt-system -- --phoneip "${ADDRESS}"
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping nmt-system"
+	start-stop-daemon --stop  --pidfile /run/nmt-system.pid --signal TERM
+	eend $?
+}
